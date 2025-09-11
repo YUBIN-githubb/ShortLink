@@ -1,8 +1,10 @@
 package com.example.shortlink.domain.url.service;
 
+import com.example.shortlink.common.exception.CustomException;
 import com.example.shortlink.domain.url.entity.Url;
 import com.example.shortlink.domain.url.repository.UrlRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +27,13 @@ public class UrlService {
 
         savedOriginalUrl.updateShortUrl(shortUrl);
 
-        //urlRepository.save(savedOriginalUrl);
-
         return shortUrl;
+    }
+
+    public String findOriginalUrl(String shortUrl) {
+        Url url = urlRepository.findByShortUrl(shortUrl).orElseThrow(
+                () -> new CustomException(HttpStatus.NOT_FOUND, "매칭되는 원본 URL이 존재하지 않습니다.")
+        );
+        return url.getOriginalUrl();
     }
 }

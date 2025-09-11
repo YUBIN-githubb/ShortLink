@@ -7,12 +7,9 @@ import com.example.shortlink.domain.url.service.UrlService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class UrlController {
 
@@ -25,10 +22,9 @@ public class UrlController {
         return ResponseEntity.ok(CreateUrlResponse.of(shortUrl));
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/{shortenUrl}")
+    public String redirectToOriginalUrll(
+            @PathVariable String shortenUrl) {
+        return "redirect:" + urlService.findOriginalUrl(shortenUrl);
     }
-
-
 }
