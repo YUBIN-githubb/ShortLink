@@ -18,7 +18,6 @@ public class Url {
     @Column(nullable = false)
     private String originalUrl;
 
-    @Column(nullable = false)
     private String shortUrl;
 
     private Url(String originalUrl, String shortUrl) {
@@ -28,5 +27,13 @@ public class Url {
 
     public static Url create(String originalUrl, String shortUrl) {
         return new Url(originalUrl, shortUrl);
+    }
+
+    public static Url createOriginalUrl(String originalUrl) {
+        return new Url(originalUrl, null);
+    }
+
+    public void updateShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
     }
 }
